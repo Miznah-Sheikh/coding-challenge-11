@@ -94,4 +94,22 @@ library.lendBook(201, 123456);
 console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
 console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
 
+// Task 5 - Implemented Book Returns
+Library.prototype.returnBook = function (borrowerId, isbn) {
+    const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+    const book = this.books.find(b => b.isbn === isbn);
+
+    if (borrower && book && borrower.borrowedBooks.includes(book.title)) {
+        book.updateCopies(1);
+        borrower.returnBook(book.title);
+    } else {
+        console.log("Return unsuccessful. Book or borrower not found.");
+    }
+};
+
+// Testing returnBook
+library.returnBook(201, 123456);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(borrower1.borrowedBooks); // Expected output: []
+
 
