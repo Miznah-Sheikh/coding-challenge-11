@@ -74,3 +74,24 @@ const library = new Library();
 library.addBook(book1);
 library.listBooks(); 
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+
+// Task 4 - Implemented Book Borrowing
+Library.prototype.lendBook = function (borrowerId, isbn) {
+    const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
+    const book = this.books.find(b => b.isbn === isbn);
+
+    if (borrower && book && book.copies > 0) {
+        book.updateCopies(-1);
+        borrower.borrowBook(book.title);
+    } else {
+        console.log("Book is not available or Borrower not found.");
+    }
+};
+
+// Adding borrower to library and testing lendBook
+library.addBorrower(borrower1);
+library.lendBook(201, 123456);
+console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
+console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
+
+
