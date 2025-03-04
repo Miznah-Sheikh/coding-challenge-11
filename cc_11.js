@@ -17,7 +17,7 @@ class Book {
 }
 
 // Test for Task 1
-const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 123456, 5);
+const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1234567, 5);
 console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 5"
 
 book1.updateCopies(-1);
@@ -89,7 +89,7 @@ library.listBooks();
 
 // Adding borrower to library and testing lendBook
 library.addBorrower(borrower1);
-library.lendBook(201, 123456);
+library.lendBook(201, 234567);
 console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
 console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
 
@@ -106,7 +106,7 @@ console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
 };
 
 // Testing returnBook
-library.returnBook(201, 123456);
+library.returnBook(201, 234567);
 console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
 console.log(borrower1.borrowedBooks); // Expected output: []
 
