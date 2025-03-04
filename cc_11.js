@@ -75,8 +75,7 @@ library.addBook(book1);
 library.listBooks(); 
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
 
-// Task 4 - Implemented Book Borrowing
-Library.prototype.lendBook = function (borrowerId, isbn) {
+// Task 4 - Implemented Borrowing of book
     const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
     const book = this.books.find(b => b.isbn === isbn);
 
@@ -95,7 +94,6 @@ console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, A
 console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
 
 // Task 5 - Implemented Book Returns
-Library.prototype.returnBook = function (borrowerId, isbn) {
     const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
     const book = this.books.find(b => b.isbn === isbn);
 
