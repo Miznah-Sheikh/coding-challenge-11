@@ -76,48 +76,68 @@ library.listBooks();
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
 
 // Task 4: Borrowing a Book
+class Library {
+    constructor() {
+        this.books = []; // Stores book collection
+        this.borrowers = []; // Stores registered borrowers
+    }
+
+    addBook(book) {
+        this.books.push(book);
+    }
+
+    addBorrower(borrower) {
+        this.borrowers.push(borrower);
+    }
+
+    listBooks() {
+        console.log("Library Collection:");
+        this.books.forEach(book => console.log(book.getDetails()));
+    }
+
     lendBook(borrowerId, isbn) {
-        const borrower = this.borrowerRegistry.find(person => person.borrowerId === borrowerId);
-        const book = this.bookCollection.find(item => item.isbn === isbn);
+        const borrower = this.borrowers.find(person => person.borrowerId === borrowerId);
+        const book = this.books.find(item => item.isbn === isbn);
 
         if (borrower && book && book.copies > 0) {
-            book.adjustCopies(-1);
-            borrower.checkoutBook(book.title);
-            console.log(` "${book.title}" has been borrowed by ${borrower.fullName}.`);
+            book.updateCopies(-1);
+            borrower.borrowBook(book.title);
+            console.log(`"${book.title}" has been borrowed by ${borrower.name}.`);
         } else {
-            console.log(" Borrowing failed: Either the book is unavailable or the borrower ID is incorrect.");
+            console.log("Borrowing failed: Either the book is unavailable or the borrower ID is incorrect.");
         }
     }
 
     // Task 5: Returning a Book
     returnBook(borrowerId, isbn) {
-        const borrower = this.borrowerRegistry.find(person => person.borrowerId === borrowerId);
-        const book = this.bookCollection.find(item => item.isbn === isbn);
+        const borrower = this.borrowers.find(person => person.borrowerId === borrowerId);
+        const book = this.books.find(item => item.isbn === isbn);
 
-        if (borrower && book && borrower.checkedOutBooks.includes(book.title)) {
-            book.adjustCopies(1);
-            borrower.returnCheckedOutBook(book.title);
-            console.log(` "${book.title}" has been returned by ${borrower.fullName}.`);
+        if (borrower && book && borrower.borrowedBooks.includes(book.title)) {
+            book.updateCopies(1);
+            borrower.returnBook(book.title);
+            console.log(`"${book.title}" has been returned by ${borrower.name}.`);
         } else {
-            console.log("Return failed: Book or borrower detailss incorrect.");
+            console.log("Return failed: Book or borrower details incorrect.");
         }
     }
 }
 
 // Library Testing
 const library = new Library();
-library.addNewBook(book1);
-library.displayAvailableBooks();
+library.addBook(book1);
+library.addBorrower(borrower1);
+library.listBooks();
 
 // Task 4: Borrowing a Book
-console.log("📢 Borrowing Process...");
-library.registerBorrower(borrower1);
+console.log("Borrowing Process...");
 library.lendBook(201, 123456);
-console.log(book1.fetchBookInfo());
-console.log(borrower1.checkedOutBooks);
+console.log(book1.getDetails());  // Fixed: Using getDetails() instead of fetchBookInfo()
+console.log(borrower1.borrowedBooks);
 
-// Task 5: Returned Book
-console.log("📢 Returned Process...");
+// Task 5: Returning a Book
+console.log("Returning Process...");
 library.returnBook(201, 123456);
-console.log(book1.fetchBookInfo());
-console.log(borrower1.checkedOutBooks);
+console.log(book1.getDetails());  // Fixed: Using getDetails() instead of fetchBookInfo()
+console.log(borrower1.borrowedBooks);
+
