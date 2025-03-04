@@ -18,10 +18,10 @@ class Book {
 
 // Test for Task 1
 const book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", 1234567, 5);
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 5"
+console.log(book1.getDetails());
 
 book1.updateCopies(-1);
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
+console.log(book1.getDetails());
 
 // Task 2 - Created Borrower Class
 class Borrower {
@@ -43,43 +43,16 @@ class Borrower {
 // Test for Task 2
 const borrower1 = new Borrower("Akbar Younus", 201);
 borrower1.borrowBook("The Great Gatsby");
-console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
+console.log(borrower1.borrowedBooks);
 
 borrower1.returnBook("The Great Gatsby");
-console.log(borrower1.borrowedBooks); // Expected output: []
+console.log(borrower1.borrowedBooks);
 
-
-// Task 3 - Created Library Class
+// Task 3 - Created Library Class (Merged Task 4 and Task 5 inside this class)
 class Library {
     constructor() {
-        this.books = [];
+        this.books = []; 
         this.borrowers = [];
-    }
-
-    addBook(book) {
-        this.books.push(book);
-    }
-
-    addBorrower(borrower) {
-        this.borrowers.push(borrower);
-    }
-
-    listBooks() {
-        this.books.forEach(book => console.log(book.getDetails()));
-    }
-}
-
-// Test for Task 3
-const library = new Library();
-library.addBook(book1);
-library.listBooks(); 
-// Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
-
-// Task 4: Borrowing a Book
-class Library {
-    constructor() {
-        this.books = []; // Stores book collection
-        this.borrowers = []; // Stores registered borrowers
     }
 
     addBook(book) {
@@ -95,6 +68,7 @@ class Library {
         this.books.forEach(book => console.log(book.getDetails()));
     }
 
+    // Task 4: Borrowing a Book
     lendBook(borrowerId, isbn) {
         const borrower = this.borrowers.find(person => person.borrowerId === borrowerId);
         const book = this.books.find(item => item.isbn === isbn);
@@ -132,12 +106,11 @@ library.listBooks();
 // Task 4: Borrowing a Book
 console.log("Borrowing Process...");
 library.lendBook(201, 123456);
-console.log(book1.getDetails());  // Fixed: Using getDetails() instead of fetchBookInfo()
+console.log(book1.getDetails());  
 console.log(borrower1.borrowedBooks);
 
 // Task 5: Returning a Book
 console.log("Returning Process...");
 library.returnBook(201, 123456);
-console.log(book1.getDetails());  // Fixed: Using getDetails() instead of fetchBookInfo()
+console.log(book1.getDetails());  
 console.log(borrower1.borrowedBooks);
-
