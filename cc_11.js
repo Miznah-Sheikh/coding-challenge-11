@@ -75,39 +75,49 @@ library.addBook(book1);
 library.listBooks(); 
 // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
 
-// Task 4 - Implemented Borrowing of book
-    const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
-    const book = this.books.find(b => b.isbn === isbn);
+// Task 4: Borrowing a Book
+    lendBook(borrowerId, isbn) {
+        const borrower = this.borrowerRegistry.find(person => person.borrowerId === borrowerId);
+        const book = this.bookCollection.find(item => item.isbn === isbn);
 
-    if (borrower && book && book.copies > 0) {
-        book.updateCopies(-1);
-        borrower.borrowBook(book.title);
-    } else {
-        console.log("Book is not available or Borrower not found.");
+        if (borrower && book && book.copies > 0) {
+            book.adjustCopies(-1);
+            borrower.checkoutBook(book.title);
+            console.log(` "${book.title}" has been borrowed by ${borrower.fullName}.`);
+        } else {
+            console.log(" Borrowing failed: Either the book is unavailable or the borrower ID is incorrect.");
+        }
     }
-};
 
-// Adding borrower to library and testing lendBook
-library.addBorrower(borrower1);
-library.lendBook(201, 234567);
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 3"
-console.log(borrower1.borrowedBooks); // Expected output: ["The Great Gatsby"]
+    // Task 5: Returning a Book
+    returnBook(borrowerId, isbn) {
+        const borrower = this.borrowerRegistry.find(person => person.borrowerId === borrowerId);
+        const book = this.bookCollection.find(item => item.isbn === isbn);
 
-// Task 5 - Implemented Book Returns
-    const borrower = this.borrowers.find(b => b.borrowerId === borrowerId);
-    const book = this.books.find(b => b.isbn === isbn);
-
-    if (borrower && book && borrower.borrowedBooks.includes(book.title)) {
-        book.updateCopies(1);
-        borrower.returnBook(book.title);
-    } else {
-        console.log("Return unsuccessful. Book or borrower not found.");
+        if (borrower && book && borrower.checkedOutBooks.includes(book.title)) {
+            book.adjustCopies(1);
+            borrower.returnCheckedOutBook(book.title);
+            console.log(` "${book.title}" has been returned by ${borrower.fullName}.`);
+        } else {
+            console.log("Return failed: Book or borrower detailss incorrect.");
+        }
     }
-};
+}
 
-// Testing returnBook
-library.returnBook(201, 234567);
-console.log(book1.getDetails()); // Expected output: "Title: The Great Gatsby, Author: F. Scott Fitzgerald, ISBN: 123456, Copies: 4"
-console.log(borrower1.borrowedBooks); // Expected output: []
+// Library Testing
+const library = new Library();
+library.addNewBook(book1);
+library.displayAvailableBooks();
 
+// Task 4: Borrowing a Book
+console.log("📢 Borrowing Process...");
+library.registerBorrower(borrower1);
+library.lendBook(201, 123456);
+console.log(book1.fetchBookInfo());
+console.log(borrower1.checkedOutBooks);
 
+// Task 5: Returned Book
+console.log("📢 Returned Process...");
+library.returnBook(201, 123456);
+console.log(book1.fetchBookInfo());
+console.log(borrower1.checkedOutBooks);
